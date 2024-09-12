@@ -103,3 +103,12 @@ C:\dev\Project-NET\NetCoreWithNextJS\CheckNSell\bin\Debug\net8.0\tr\Microsoft.Co
 C:\dev\Project-NET\NetCoreWithNextJS\CheckNSell\bin\Debug\net8.0\zh-Hans\Microsoft.CodeAnalysis.Workspaces.resources.dll
 C:\dev\Project-NET\NetCoreWithNextJS\CheckNSell\bin\Debug\net8.0\zh-Hant\Microsoft.CodeAnalysis.Workspaces.resources.dll
 C:\dev\Project-NET\NetCoreWithNextJS\CheckNSell\obj\Debug\net8.0\CheckNSell.sourcelink.json
+C:\dev\Project-NET\NetCoreWithNextJS\CheckNSell\bin\Debug\net8.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+C:\dev\Project-NET\NetCoreWithNextJS\CheckNSell\bin\Debug\net8.0\Microsoft.AspNetCore.Identity.EntityFrameworkCore.dll
+C:\dev\Project-NET\NetCoreWithNextJS\CheckNSell\bin\Debug\net8.0\Microsoft.IdentityModel.Abstractions.dll
+C:\dev\Project-NET\NetCoreWithNextJS\CheckNSell\bin\Debug\net8.0\Microsoft.IdentityModel.JsonWebTokens.dll
+C:\dev\Project-NET\NetCoreWithNextJS\CheckNSell\bin\Debug\net8.0\Microsoft.IdentityModel.Logging.dll
+C:\dev\Project-NET\NetCoreWithNextJS\CheckNSell\bin\Debug\net8.0\Microsoft.IdentityModel.Protocols.dll
+C:\dev\Project-NET\NetCoreWithNextJS\CheckNSell\bin\Debug\net8.0\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
+C:\dev\Project-NET\NetCoreWithNextJS\CheckNSell\bin\Debug\net8.0\Microsoft.IdentityModel.Tokens.dll
+C:\dev\Project-NET\NetCoreWithNextJS\CheckNSell\bin\Debug\net8.0\System.IdentityModel.Tokens.Jwt.dll
