@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using CheckNSell.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace CheckNSell.Models;
+namespace CheckNSell.Data; // เปลี่ยนชื่อ namespace ตามโปรเจค
 
 public partial class ApplicationDbContext : DbContext
 {
