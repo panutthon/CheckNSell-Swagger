@@ -1,0 +1,6 @@
+@CheckNSell_HostAddress = http://localhost:5036
+
+GET {{CheckNSell_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
