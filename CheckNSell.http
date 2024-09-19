@@ -1,4 +1,5 @@
 @CheckNSell_HostAddress = http://localhost:5036/api
+@CheckNSell_AccessToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoicGFudXR0aG9uIiwianRpIjoiZGFjNjk5NjAtNDEzOS00ODFhLTgxNzYtY2FlYjhhODAxNmNkIiwiZXhwIjoxNzI2ODU5OTQ1LCJpc3MiOiIqIiwiYXVkIjoiKiJ9.U3GHzMkrWpWeb9YL2j8xN_g1zCw0sHc4mIFeGmSiWQ0
 
 GET {{CheckNSell_HostAddress}}/Product/testconnectdb
 Accept: application/json
@@ -8,12 +9,14 @@ Accept: application/json
 // Get all products
 GET {{CheckNSell_HostAddress}}/Product
 Accept: application/json
+Authorization: Bearer {{CheckNSell_AccessToken}}
 
 ###
 
 // Get product by id
 GET {{CheckNSell_HostAddress}}/Product/3
 Accept: application/json
+Authorization: Bearer {{CheckNSell_AccessToken}}
 
 ###
 
@@ -21,6 +24,7 @@ Accept: application/json
 POST {{CheckNSell_HostAddress}}/Product
 Content-Type: application/json
 Accept: application/json
+Authorization: Bearer {{CheckNSell_AccessToken}}
 
 {
   "category_id": 1,
@@ -38,6 +42,17 @@ Accept: application/json
 PUT {{CheckNSell_HostAddress}}/Product/5
 Content-Type: application/json
 Accept: application/json
+Authorization: Bearer {{CheckNSell_AccessToken}}
+
+{
+  "category_id": 1,
+  "product_name": "Mobile Product Updated",
+  "unit_price": 20,
+  "product_picture": "https://www.popticles.com/wp-content/uploads/2021/04/iphone-410311_1280-1024x682.jpg",
+  "unit_in_stock": 200,
+  "created_date": "2021-07-01T00:00:00",
+  "modified_date": "2021-07-01T00:00:00"
+}
 
 {
   "category_id": 1,
@@ -54,3 +69,4 @@ Accept: application/json
 // Delete product
 DELETE {{CheckNSell_HostAddress}}/Product/5
 Accept: application/json
+Authorization: Bearer {{CheckNSell_AccessToken}}

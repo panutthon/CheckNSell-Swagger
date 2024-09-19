@@ -1,0 +1,35 @@
+// Authentication API
+@AuthAPI_HostAddress = http://localhost:5036/api/Authenticate
+
+// Register User API
+POST {{AuthAPI_HostAddress}}/register
+Content-Type: application/json
+
+{
+  "username": "panutthon",
+  "email": "panutthon@email.com",
+  "password": "Panutthon@1234"
+}
+
+###
+
+// Register Admin API
+POST {{AuthAPI_HostAddress}}/register-admin
+Content-Type: application/json
+
+{
+  "username": "admin",
+  "email": "admin@email.com",
+  "password": "Admin@1234"
+}
+
+###
+
+// Login API
+POST {{AuthAPI_HostAddress}}/login
+Content-Type: application/json
+
+{
+  "username": "panutthon",
+  "password": "Panutthon@1234"
+}

@@ -1,9 +1,11 @@
 using Microsoft.AspNetCore.Mvc;
 using CheckNSell.Data;
 using CheckNSell.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace CheckNSell.Controllers;
 
+[Authorize] // ต้องเข้าสู่ระบบก่อนเข้าถึง API นี้
 [ApiController]
 [Route("api/[controller]")]
 public class ProductController : ControllerBase
@@ -23,6 +25,8 @@ public class ProductController : ControllerBase
         _context = context;
         _env = env;
     }
+
+    [AllowAnonymous] // ไม่ต้องเข้าสู่ระบบก่อนเข้าถึง API นี้
 
     // ทดสอบเขียนฟังก์ชันการเชื่อมต่อ database
     // GET: /api/Product/testconnectdb
