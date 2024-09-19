@@ -1,8 +1,7 @@
-﻿using CheckNSell.Models;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-
+using CheckNSell.Models;
 
 namespace CheckNSell.Data;
 public partial class ApplicationDbContext : IdentityDbContext<IdentityUser>
