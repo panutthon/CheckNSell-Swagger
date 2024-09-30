@@ -68,9 +68,14 @@ public class ProductController : ControllerBase
                     p.product_name,
                     p.unit_price,
                     p.unit_in_stock,
+                    p.product_picture,
+                    p.created_date,
+                    p.modified_date,
                     c.category_name
                 }
-            ).ToList();
+            )
+            .OrderByDescending(p => p.product_id) // เรียงลำดับข้อมูลตาม product_id จากมากไปน้อย
+            .ToList();
 
         // ส่งข้อมูลกลับไปให้ผู้ใช้งาน
         return Ok(products);
@@ -108,7 +113,9 @@ public class ProductController : ControllerBase
             string fileName = Guid.NewGuid().ToString() + Path.GetExtension(image.FileName);
 
             // บันทึกไฟล์รูปภาพ
-            string uploadFolder = Path.Combine(_env.ContentRootPath, "uploads");
+            // string uploadFolder = Path.Combine(_env.ContentRootPath, "uploads");
+
+            string uploadFolder = Path.Combine(_env.WebRootPath, "uploads");
 
             // ตรวจสอบว่าโฟลเดอร์ uploads มีหรือไม่
             if (!Directory.Exists(uploadFolder))

@@ -1,0 +1,41 @@
+{
+  "Files": [
+    {
+      "Id": "C:\\dev\\Project-NET\\NetCoreWithNextJS\\CheckNSell\\wwwroot\\uploads\\1b95e854-c6d3-4b6c-8531-51bcb833d294.jpg",
+      "PackagePath": "staticwebassets\\uploads\\1b95e854-c6d3-4b6c-8531-51bcb833d294.jpg"
+    },
+    {
+      "Id": "C:\\dev\\Project-NET\\NetCoreWithNextJS\\CheckNSell\\wwwroot\\uploads\\59b9dbc9-d37c-48af-afec-cdcfb71a2430.jpg",
+      "PackagePath": "staticwebassets\\uploads\\59b9dbc9-d37c-48af-afec-cdcfb71a2430.jpg"
+    },
+    {
+      "Id": "C:\\dev\\Project-NET\\NetCoreWithNextJS\\CheckNSell\\wwwroot\\uploads\\c66707d5-77b7-44c7-bde8-1de2261fa237.jpg",
+      "PackagePath": "staticwebassets\\uploads\\c66707d5-77b7-44c7-bde8-1de2261fa237.jpg"
+    },
+    {
+      "Id": "C:\\dev\\Project-NET\\NetCoreWithNextJS\\CheckNSell\\wwwroot\\uploads\\e4cee763-aa84-4f43-9400-38a2179990eb.jpg",
+      "PackagePath": "staticwebassets\\uploads\\e4cee763-aa84-4f43-9400-38a2179990eb.jpg"
+    },
+    {
+      "Id": "C:\\dev\\Project-NET\\NetCoreWithNextJS\\CheckNSell\\wwwroot\\uploads\\eb874f16-a286-4379-a9d5-3fdd2a4bc87a.jpg",
+      "PackagePath": "staticwebassets\\uploads\\eb874f16-a286-4379-a9d5-3fdd2a4bc87a.jpg"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.CheckNSell.Microsoft.AspNetCore.StaticWebAssets.props",
+      "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssets.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.build.CheckNSell.props",
+      "PackagePath": "build\\CheckNSell.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.buildMultiTargeting.CheckNSell.props",
+      "PackagePath": "buildMultiTargeting\\CheckNSell.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.buildTransitive.CheckNSell.props",
+      "PackagePath": "buildTransitive\\CheckNSell.props"
+    }
+  ],
+  "ElementsToRemove": []
+}

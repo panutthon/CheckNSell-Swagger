@@ -112,3 +112,4 @@ C:\dev\Project-NET\NetCoreWithNextJS\CheckNSell\bin\Debug\net8.0\Microsoft.Ident
 C:\dev\Project-NET\NetCoreWithNextJS\CheckNSell\bin\Debug\net8.0\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
 C:\dev\Project-NET\NetCoreWithNextJS\CheckNSell\bin\Debug\net8.0\Microsoft.IdentityModel.Tokens.dll
 C:\dev\Project-NET\NetCoreWithNextJS\CheckNSell\bin\Debug\net8.0\System.IdentityModel.Tokens.Jwt.dll
+C:\dev\Project-NET\NetCoreWithNextJS\CheckNSell\bin\Debug\net8.0\CheckNSell.staticwebassets.runtime.json
