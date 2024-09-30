@@ -2,12 +2,14 @@ using Microsoft.AspNetCore.Mvc;
 using CheckNSell.Data;
 using CheckNSell.Models;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.EntityFrameworkCore;
 
 namespace CheckNSell.Controllers;
 
-[Authorize] // ต้องเข้าสู่ระบบก่อนเข้าถึง API นี้
-[ApiController]
-[Route("api/[controller]")]
+[Authorize] // กำหนดให้ต้องมีการ Login ก่อนเข้าถึง API ทั้งหมด
+// [Authorize(Roles = UserRoles.Admin)] // กำหนดให้เฉพาะ Admin เท่านั้นที่สามารถเข้าถึง API นี้ได้
+[ApiController] // กำหนดให้ Class นี้เป็น API Controller
+[Route("api/[controller]")] // กำหนด Route ของ API Controller
 public class ProductController : ControllerBase
 {
     // สร้าง Object ของ ApplicationDbContext
@@ -26,8 +28,7 @@ public class ProductController : ControllerBase
         _env = env;
     }
 
-    [AllowAnonymous] // ไม่ต้องเข้าสู่ระบบก่อนเข้าถึง API นี้
-
+    [AllowAnonymous]
     // ทดสอบเขียนฟังก์ชันการเชื่อมต่อ database
     // GET: /api/Product/testconnectdb
     [HttpGet("testconnectdb")]
@@ -46,10 +47,18 @@ public class ProductController : ControllerBase
     }
 
     // ฟังก์ชันสำหรับการดึงข้อมูลสินค้าทั้งหมด
-    // GET: /api/Product
+    // GET: /api/Product?page=1&limit=10&selectedCategory=1&searchQuery=demo
     [HttpGet]
-    public ActionResult<product> GetProducts()
+    public ActionResult<product> GetProducts(
+        [FromQuery] int page=1,
+        [FromQuery] int limit=100,
+        [FromQuery] int? selectedCategory=null,
+        [FromQuery] string? searchQuery=null
+    )
     {
+        // คำนวณหารายการที่จะข้าม
+        int skip = (page - 1) * limit;
+
         // LINQ สำหรับการดึงข้อมูลจากตาราง Products ทั้งหมด
         // var products = _context.products.ToList();
 
@@ -57,28 +66,49 @@ public class ProductController : ControllerBase
         // var products = _context.products.Where(p => p.unit_price > 45000).ToList();
 
         // แบบเชื่อมกับตารางอื่น products เชื่อมกับ categories
-        var products = _context.products
-            .Join(
-                _context.categories,
-                p => p.category_id,
-                c => c.category_id,
-                (p, c) => new
-                {
-                    p.product_id,
-                    p.product_name,
-                    p.unit_price,
-                    p.unit_in_stock,
-                    p.product_picture,
-                    p.created_date,
-                    p.modified_date,
-                    c.category_name
-                }
-            )
-            .OrderByDescending(p => p.product_id) // เรียงลำดับข้อมูลตาม product_id จากมากไปน้อย
+        var query = _context.products
+        .Join(
+            _context.categories,
+            p => p.category_id,
+            c => c.category_id,
+            (p, c) => new
+            {
+                p.product_id,
+                p.product_name,
+                p.unit_price,
+                p.unit_in_stock,
+                p.product_picture,
+                p.created_date,
+                p.modified_date,
+                p.category_id,
+                c.category_name
+            }
+        );
+
+        // ถ้ามีการเลือกหมวดหมู่สินค้า
+        if(selectedCategory.HasValue)
+        {
+            query = query.Where(p => p.category_id == selectedCategory.Value);
+        }
+
+        // ถ้ามีการค้นหาข้อมูล
+        if (!string.IsNullOrEmpty(searchQuery))
+        {
+            // query = query.Where(p => p.product_name.Contains(searchQuery));
+            query = query.Where(p => EF.Functions.ILike(p.product_name!, $"%{searchQuery}%"));
+        }
+
+        // นับจำนวนรายการทั้งหมด
+        var totalRecords = query.Count(); // Count after filtering
+
+        var products = query
+            .OrderByDescending(p => p.product_id)
+            .Skip(skip)
+            .Take(limit)
             .ToList();
 
         // ส่งข้อมูลกลับไปให้ผู้ใช้งาน
-        return Ok(products);
+        return Ok(new {Total = totalRecords, Products = products});
     }
 
     // ฟังก์ชันสำหรับการดึงข้อมูลสินค้าตาม id
@@ -101,8 +131,10 @@ public class ProductController : ControllerBase
 
     // ฟังก์ชันสำหรับการเพิ่มข้อมูลสินค้า
     // POST: /api/Product
+    // ฟังก์ชันสำหรับการเพิ่มข้อมูลสินค้า
+    // POST: /api/Product
     [HttpPost]
-    public async Task<ActionResult<product>> CreateProduct([FromForm] product product, IFormFile image)
+    public async Task<ActionResult<product>> CreateProduct([FromForm] product product, IFormFile? image)
     {
         // เพิ่มข้อมูลลงในตาราง Products
         _context.products.Add(product);
@@ -114,7 +146,6 @@ public class ProductController : ControllerBase
 
             // บันทึกไฟล์รูปภาพ
             // string uploadFolder = Path.Combine(_env.ContentRootPath, "uploads");
-
             string uploadFolder = Path.Combine(_env.WebRootPath, "uploads");
 
             // ตรวจสอบว่าโฟลเดอร์ uploads มีหรือไม่
@@ -130,6 +161,8 @@ public class ProductController : ControllerBase
 
             // บันทึกชื่อไฟล์รูปภาพลงในฐานข้อมูล
             product.product_picture = fileName;
+        } else {
+            product.product_picture = "noimg.jpg";
         }
 
         _context.SaveChanges();
@@ -139,9 +172,13 @@ public class ProductController : ControllerBase
     }
 
     // ฟังก์ชันสำหรับการแก้ไขข้อมูลสินค้า
-    // PUT: /api/Product/{id}
+    // PUT /api/Product/1
     [HttpPut("{id}")]
-    public ActionResult<product> UpdateProduct(int id, product product)
+    public async Task<ActionResult<product>> UpdateProduct(
+        int id, [FromForm] 
+        product product, 
+        IFormFile? image
+    )
     {
         // ดึงข้อมูลสินค้าตาม id
         var existingProduct = _context.products.FirstOrDefault(p => p.product_id == id);
@@ -157,6 +194,36 @@ public class ProductController : ControllerBase
         existingProduct.unit_price = product.unit_price;
         existingProduct.unit_in_stock = product.unit_in_stock;
         existingProduct.category_id = product.category_id;
+        existingProduct.modified_date = product.modified_date;
+
+        // ตรวจสอบว่ามีการอัพโหลดไฟล์รูปภาพหรือไม่
+        if(image != null){
+            // กำหนดชื่อไฟล์รูปภาพใหม่
+            string fileName = Guid.NewGuid().ToString() + Path.GetExtension(image.FileName);
+
+            // บันทึกไฟล์รูปภาพ
+            // string uploadFolder = Path.Combine(_env.ContentRootPath, "uploads");
+            string uploadFolder = Path.Combine(_env.WebRootPath, "uploads");
+
+            // ตรวจสอบว่าโฟลเดอร์ uploads มีหรือไม่
+            if (!Directory.Exists(uploadFolder))
+            {
+                Directory.CreateDirectory(uploadFolder);
+            }
+
+            using (var fileStream = new FileStream(Path.Combine(uploadFolder, fileName), FileMode.Create))
+            {
+                await image.CopyToAsync(fileStream);
+            }
+
+            // ลบไฟล์รูปภาพเดิม ถ้ามีการอัพโหลดรูปภาพใหม่ และรูปภาพเดิมไม่ใช่ noimg.jpg
+            if(existingProduct.product_picture != "noimg.jpg"){
+                System.IO.File.Delete(Path.Combine(uploadFolder, existingProduct.product_picture!));
+            }
+
+            // บันทึกชื่อไฟล์รูปภาพลงในฐานข้อมูล
+            existingProduct.product_picture = fileName;
+        }
 
         // บันทึกข้อมูล
         _context.SaveChanges();
@@ -166,7 +233,7 @@ public class ProductController : ControllerBase
     }
 
     // ฟังก์ชันสำหรับการลบข้อมูลสินค้า
-    // DELETE: /api/Product/{id}
+    // DELETE /api/Product/1
     [HttpDelete("{id}")]
     public ActionResult<product> DeleteProduct(int id)
     {
@@ -177,6 +244,15 @@ public class ProductController : ControllerBase
         if (product == null)
         {
             return NotFound();
+        }
+
+        // ตรวจสอบว่ามีไฟล์รูปภาพหรือไม่
+        if(product.product_picture != "noimg.jpg"){
+            // string uploadFolder = Path.Combine(_env.ContentRootPath, "uploads");
+            string uploadFolder = Path.Combine(_env.WebRootPath, "uploads");
+
+            // ลบไฟล์รูปภาพ
+            System.IO.File.Delete(Path.Combine(uploadFolder, product.product_picture!));
         }
 
         // ลบข้อมูล

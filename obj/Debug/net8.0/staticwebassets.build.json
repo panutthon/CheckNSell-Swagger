@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "qf3IwPiOS1aedaieHlx/BJhmdt3zO6ZgvCSKVHH1xNs=",
+  "Hash": "lrgi9VqMG2IiFMtuRv0BqdckVftpS7109LOsr9iEf68=",
   "Source": "CheckNSell",
   "BasePath": "_content/CheckNSell",
   "Mode": "Default",
@@ -53,6 +53,25 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\uploads\\59b9dbc9-d37c-48af-afec-cdcfb71a2430.jpg"
+    },
+    {
+      "Identity": "C:\\dev\\Project-NET\\NetCoreWithNextJS\\CheckNSell\\wwwroot\\uploads\\87f46fc8-3f37-415f-af28-23bb9987d384.jpg",
+      "SourceId": "CheckNSell",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\dev\\Project-NET\\NetCoreWithNextJS\\CheckNSell\\wwwroot\\",
+      "BasePath": "_content/CheckNSell",
+      "RelativePath": "uploads/87f46fc8-3f37-415f-af28-23bb9987d384.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\uploads\\87f46fc8-3f37-415f-af28-23bb9987d384.jpg"
     },
     {
       "Identity": "C:\\dev\\Project-NET\\NetCoreWithNextJS\\CheckNSell\\wwwroot\\uploads\\c66707d5-77b7-44c7-bde8-1de2261fa237.jpg",
