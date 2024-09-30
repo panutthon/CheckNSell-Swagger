@@ -3,8 +3,9 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
-using CheckNSell.Data;
 using Microsoft.OpenApi.Models;
+using CheckNSell.Data;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -44,11 +45,41 @@ builder.Services.AddAuthentication(options =>
 });
 
 
+// CORS with default policy
+builder.Services.AddCors(
+    options =>
+    {
+        options.AddDefaultPolicy(
+            policy =>
+            {
+                policy.AllowAnyOrigin();
+                policy.AllowAnyMethod();
+                policy.AllowAnyHeader();
+            }
+        );
+    }
+);
+
+
+// Cors Allow Specific
+// builder.Services.AddCors(options =>
+// {
+//     options.AddPolicy("AllowSpecificOrigin",
+//         builder =>
+//         {
+//             builder.WithOrigins("http://localhost:3000", "http://localhost:4200");
+//             builder.WithHeaders("Authorization", "Content-Type", "Accept", "Origin", "X-Request-With");
+//             builder.WithMethods("GET", "POST", "PUT", "DELETE");
+//         }
+//     );
+// });
+
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(opt =>
     {
+        // Define the Swagger document
         opt.SwaggerDoc(
             "v1",
             new Microsoft.OpenApi.Models.OpenApiInfo
@@ -58,6 +89,7 @@ builder.Services.AddSwaggerGen(opt =>
             }
         );
 
+        // Define the Bearer token
         opt.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme()
         {
             Name = "Authorization",
@@ -68,6 +100,7 @@ builder.Services.AddSwaggerGen(opt =>
             Description = "JWT Authorization header using the Bearer scheme. \r\n\r\n Enter 'Bearer' [space] and then your token in the text input below.\r\n\r\nExample: \"Bearer 12345abcdef\"",
         });
 
+        // Add the Bearer token
         opt.AddSecurityRequirement(new OpenApiSecurityRequirement
         {
             {
@@ -83,35 +116,34 @@ builder.Services.AddSwaggerGen(opt =>
 
             }
         });
-
     }
 );
 
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
+if (app.Environment.IsDevelopment() || app.Environment.IsProduction()) // Adjust according to your needs
 {
     app.UseSwagger();
     app.UseSwaggerUI();
 }
 
+// Use Static Files
 app.UseStaticFiles();
 
-app.UseHttpsRedirection();
-
-// Cors Allow All
-app.UseCors(options =>
+// Redirect HTTP to HTTPS
+if (!app.Environment.IsDevelopment())
 {
-    options.AllowAnyOrigin();
-    options.AllowAnyMethod();
-    options.AllowAnyHeader();
-});
+    app.UseHttpsRedirection();  // Only use HTTPS redirection in non-development environments
+}
 
-app.UseHttpsRedirection();
+// Cors with default policy
+app.UseCors();
 
 // Add Authentication
 app.UseAuthentication();
+
+// Add Authorization
 app.UseAuthorization();
 
 app.MapControllers();
